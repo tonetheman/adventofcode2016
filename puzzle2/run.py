@@ -33,16 +33,17 @@ class Board:
 				self.right()
 			elif c == "D":
 				self.down()
-			print "DBG:", c, self.__str__(),self.board[self.row][self.col]
+			# print "DBG:", c, self.__str__(),self.board[self.row][self.col]
 
 		return self.board[self.row][self.col]
 
-b = Board()
-# print "starting", b
-# print b.read("U")
-print b.read("ULL")
-print b.read("RRDDD")
-print b.read("LURDL")
-print b.read("UUUUD")
+def test():
+	b = Board()
+	# print "starting", b
+	# print b.read("U")
+	print b.read("ULL")
+	print b.read("RRDDD")
+	print b.read("LURDL")
+	print b.read("UUUUD")
 
 
