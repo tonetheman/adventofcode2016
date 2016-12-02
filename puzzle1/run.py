@@ -14,7 +14,6 @@ def solve(s):
 		direction = d[0]
 		steps = int(d[1:])
 
-
 		if direction == "R":
 			cdir = cdir + 1
 		elif direction == "L":
@@ -22,15 +21,24 @@ def solve(s):
 		cdir = cdir%4
 
 		if cdir == 0:
-			# north
 			y = y + steps
+			for i in range(steps):
+				if positions.has_key((x,y+i)):
+					print "found it", d, x,y+i, abs(x) + abs(y+i)
+				else:
+					print "i am here",d,x,y+i,abs(x)+abs(y+i)
 		elif cdir == 1:
 			x = x + steps
+			for i in range(steps):
+				if positions.has_key((x+i,y)):
+					print "found it", d, x+i,y, abs(x+i) + abs(y)
+				else:
+					print "i am here",d,x+i,y,abs(x+i)+abs(y)
+
 		elif cdir == 2:
 			y = y - steps
 		elif cdir == 3:
 			x = x - steps
-
 
 		if positions.has_key((x,y)):
 			print "found it",d, x,y, abs(x) + abs(y)
