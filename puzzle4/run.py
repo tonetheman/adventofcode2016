@@ -27,13 +27,13 @@ def checkit(d):
 		else:
 			counts[c] = 1
 
-	# ocount = OrderedDict(sorted(counts.items(), key=lambda t: t[1]))
+	ocount = OrderedDict(sorted(counts.items(), key=lambda t: t[1]))
 	
-	print code, chk, ocount.keys()
+	print code, chk, list(ocount.keys()), ocount
 
 checkit("aaaaa-bbb-z-y-x-123[abxyz]")
-checkit("totally-real-room-200[decoy]")
 checkit("not-a-real-room-404[oarel]")
+checkit("totally-real-room-200[decoy]")
 
 # for d in data:
 # 	checkit(d)
