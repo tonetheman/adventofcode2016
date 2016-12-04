@@ -24,5 +24,3 @@ def decrypt(d):
 
 	return res
 
-print decrypt("qzmt-zixmtkozy-ivhz-343[abcde]")
-
