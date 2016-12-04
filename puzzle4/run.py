@@ -1,6 +1,4 @@
 
-from collections import OrderedDict
-
 data = open("data.txt","r").readlines()
 import string
 data = map(string.strip,data)
