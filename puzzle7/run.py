@@ -11,21 +11,36 @@ PB = re.compile(r"\[.*?\]")
 PB2 = re.compile(r"\[(.*?)\]")
 
 def support(s):
+	res = False
+
 	# a will hold stuff not in brackets
 	a = PB.split(s)
+	# find all the brackets
 	b = PB.findall(s)
 	c = []
 	for tmp  in b:
 		tmpd = PB2.findall(tmp)
 		if len(tmpd)==0:
 			continue
+		# save off just the data from the brackets
 		c.append(tmpd[0])
+
+	for ts in a:
+		td = P.findall(ts)
+		# did not find anything
+		if len(td)==0:
+			continue
+		# eliminate not valid char 1 must be diff from char 2
+		if td[0][0]==td[0][1]:
+			continue
+
 	print "orig",s
 	print "not brackets",a
 	print "brackets",b
 	print "bracket data",c
 	print
-	return True
+
+	return res 
 
 
 support("abba[mnop]qrst")
