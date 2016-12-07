@@ -1,65 +1,53 @@
 
 import re
 
-# 2 char palindrome matcher
-P = re.compile(r"(.)(.)(\2)(\1)")
+def supportTLS(s):
+	P = re.compile(r"(.)(.)(\2)(\1)")
+	B = re.compile(r"\[.*?\]")
 
-# used to split out the bracketed groups
-PB = re.compile(r"\[.*?\]")
+	not_brackets = B.split(s)
+	try:
+		not_brackets.remove('')
+	except ValueError:
+		pass
 
-# used to match the brackets
-PB2 = re.compile(r"\[(.*?)\]")
-
-def support(s):
-	res = False
-
-	# a will hold stuff not in brackets
-	a = PB.split(s)
-	# find all the brackets
-	b = PB.findall(s)
-	c = []
-	for tmp  in b:
-		tmpd = PB2.findall(tmp)
-		if len(tmpd)==0:
+	did_we_find_PAL = False
+	for ts in not_brackets:
+		m = P.search(ts)
+		if m is None:
 			continue
-		# save off just the data from the brackets
-		c.append(tmpd[0])
-
-	# stuff not in brackets
-	for ts in a:
-		td = P.findall(ts)
-		# did not find anything
-		if len(td)==0:
+		match_value = m.group(0)
+		if match_value[0] == match_value[1]:
 			continue
-		# eliminate not valid char 1 must be diff from char 2
-		if td[0][0]==td[0][1]:
+		did_we_find_PAL = True
+
+	find_PAL_in_brackets = False
+	brackets = B.findall(s)
+	for ts in brackets:
+		ts=ts[1:-1]
+		m = P.search(ts)
+		if m is None:
 			continue
-		res = True
-
-	# stuff that was in the brackets
-	for ts in c:
-		td = P.findall(ts)
-		if len(td) == 0:
+		match_value = m.group(0)
+		if match_value[0] == match_value[1]:
 			continue
-		res = False
+		find_PAL_in_brackets = True
+		# print ts, m.group(0)
 
-	"""
-	print "orig",s
-	print "not brackets",a
-	print "brackets",b
-	print "bracket data",c
-	print
-	"""
-	print s,res
-
-	return res
+	if did_we_find_PAL:
+		if find_PAL_in_brackets:
+			return False
+		else:
+			return True
+	else:
+		return False
 
 """
-support("abba[mnop]qrst")
-support("abcd[bddb]xyyx")
-support("aaaa[qwer]tyui")
-support("ioxxoj[asdfgh]zxcvbn")
-support("tony[is]really[cool]")
+print supportTLS("abba[mnop]qrst")
+print supportTLS("abcd[bddb]xyyx")
+print supportTLS("aaaa[qwer]tyui")
+print supportTLS("ioxxoj[asdfgh]zxcvbn")
+print supportTLS("tony[is]really[cool]")
 """
 
 data = open("input.txt","r").readlines()
@@ -68,6 +56,6 @@ data = map(string.strip,data)
 
 count = 0
 for d in data:
-	if support(d):
+	if supportTLS(d):
 		count = count + 1
 print count
