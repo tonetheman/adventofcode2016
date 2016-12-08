@@ -16,7 +16,19 @@ namespace Puzzle8 {
 			let idx : number = row*this.cols + col;
 			return this.scr[idx];
 		}
-		rect(w:number, h:number) {
+		set(row:number,col:number,val:number) {
+			let idx : number = row*this.cols + col;
+			let old_val = this.scr[idx];
+			this.scr[idx] = val;
+			return old_val;
+		}
+		rect(a:number, b:number) {
+			// turn on rect at top corner a wide, b tall
+			for(let i=0;i<b;i++) {
+				for(let j=0;j<a;j++) {
+					this.set(j,i,1);
+				}
+			}
 
 		}
 		repr() :string {
@@ -34,4 +46,6 @@ namespace Puzzle8 {
 }
 
 let s = new Puzzle8.Screen(7,3);
+console.log(s.repr());
+s.rect(6,2);
 console.log(s.repr());

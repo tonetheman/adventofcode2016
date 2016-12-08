@@ -13,7 +13,19 @@ var Puzzle8;
             var idx = row * this.cols + col;
             return this.scr[idx];
         };
-        Screen.prototype.rect = function (w, h) {
+        Screen.prototype.set = function (row, col, val) {
+            var idx = row * this.cols + col;
+            var old_val = this.scr[idx];
+            this.scr[idx] = val;
+            return old_val;
+        };
+        Screen.prototype.rect = function (a, b) {
+            // turn on rect at top corner a wide, b tall
+            for (var i = 0; i < b; i++) {
+                for (var j = 0; j < a; j++) {
+                    this.set(j, i, 1);
+                }
+            }
         };
         Screen.prototype.repr = function () {
             var ts = "";
@@ -30,4 +42,6 @@ var Puzzle8;
     Puzzle8.Screen = Screen;
 })(Puzzle8 || (Puzzle8 = {}));
 var s = new Puzzle8.Screen(7, 3);
+console.log(s.repr());
+s.rect(6, 2);
 console.log(s.repr());
