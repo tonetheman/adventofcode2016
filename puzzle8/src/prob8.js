@@ -27,6 +27,9 @@ var Puzzle8;
                 }
             }
         };
+        Screen.prototype.rotate_col = function (x, b) {
+            // rotate the column x, by the number b
+        };
         Screen.prototype.repr = function () {
             var ts = "";
             for (var i = 0; i < this.cols; i++) {

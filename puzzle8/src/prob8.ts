@@ -29,7 +29,9 @@ namespace Puzzle8 {
 					this.set(j,i,1);
 				}
 			}
-
+		}
+		rotate_col(x:number,b:number) {
+			// rotate the column x, by the number b
 		}
 		repr() :string {
 			let ts : string = "";
