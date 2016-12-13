@@ -11,6 +11,16 @@ function isNumeric(n) {
   return false;
 }
 
+function merge(state,o) {
+  let res = {pc:state.pc, a:state.a,
+  b:state.b, c:state.c, d:state.d};
+  if (o.a) res.a = o.a;
+  if (o.b) res.b = o.b;
+  if (o.c) res.c = o.c;
+  if (o.d) res.d = o.d;
+  return res;
+}
+
 let i_cpy = function(s,state) {
   let data = s;
   let arg0 = data[1]; // src register or value
@@ -19,13 +29,13 @@ let i_cpy = function(s,state) {
   if (isNumeric(arg0)) {
     let o = {};
     o[arg1] = parseInt(arg0);
-    let newState = _.merge(state,o);
+    let newState = merge(state,o);//_.merge(state,o);
     newState.pc++;
     return newState;
   } else {
     let o = {};
     o[arg1] = state[arg0];
-    let newState = _.merge(state,o);
+    let newState = merge(state,o); //_.merge(state,o);
     newState.pc++;
     return newState;
   }
