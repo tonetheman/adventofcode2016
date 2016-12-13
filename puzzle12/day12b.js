@@ -136,21 +136,13 @@ let s = ["cpy 1 a",
         "dec b",
         "jnz b -2"];
 */
-let count = 0;
 console.log("starting state",state);
+let ALEN = s.length;
 while(true) {
   state = cpu(s[state.pc],state);
   //console.log("state after step",state);
-  if (state.pc>=s.length) {
+  if (state.pc>=ALEN) {
     console.log("end of program");
-    break;
-  }
-  count++;
-  if (count%10000==0) {
-    //console.log(count);
-  }
-  if (count>28959500) {
-    console.log("broke for count");
     break;
   }
 }
