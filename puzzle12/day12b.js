@@ -25,10 +25,16 @@ let i_cpy = function(s,state) {
   }
 }
 
+let simp_assign = function(state) {
+  let res = { pc : state.pc,
+    a : state.a, b : state.b, c : state.c, d : state.d };
+  return res;
+}
+
 let i_inc = function(s,state) {
   let data = s;
   let arg0 = data[1]; // register to inc
-  let newState = Object.assign({}, state);
+  let newState = simp_assign(state);
   newState[arg0]++;
   newState.pc ++;
   return newState;
@@ -37,7 +43,7 @@ let i_inc = function(s,state) {
 let i_dec = function(s,state) {
   let data = s;
   let arg0 = data[1];
-  let newState = Object.assign({},state);
+  let newState = simp_assign(state);
   newState[arg0]--;
   newState.pc++;
   return newState;
@@ -47,7 +53,7 @@ let i_jnz = function(s,state) {
   let data = s;
   let arg0 = data[1];
   let arg1 = data[2];
-  let newState = Object.assign({},state);
+  let newState = simp_assign(state)
 
   // arg0 is a number
   if (isNumeric(arg0)) {
