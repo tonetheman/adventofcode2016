@@ -6,7 +6,7 @@ function isNumeric(n) {
 }
 
 let i_cpy = function(s,state) {
-  let data = s.match(/cpy\s+(\d+|[a-z]+)\s+(\d+|[a-z]+)/)
+  let data = s;
   let arg0 = data[1]; // src register or value
   let arg1 = data[2]; // dst register
 
@@ -26,7 +26,7 @@ let i_cpy = function(s,state) {
 }
 
 let i_inc = function(s,state) {
-  let data = s.match(/inc\s+([a-z]+)/)
+  let data = s;
   let arg0 = data[1]; // register to inc
   let newState = Object.assign({}, state);
   newState[arg0]++;
@@ -35,7 +35,7 @@ let i_inc = function(s,state) {
 }
 
 let i_dec = function(s,state) {
-  let data = s.match(/dec\s+([a-z]+)/)
+  let data = s;
   let arg0 = data[1];
   let newState = Object.assign({},state);
   newState[arg0]--;
@@ -44,7 +44,7 @@ let i_dec = function(s,state) {
 }
 
 let i_jnz = function(s,state) {
-  let data = s.match(/jnz\s+([a-z]+|\d+|-\d+)\s+([a-z]+|\d+|-\d+)/)
+  let data = s;
   let arg0 = data[1];
   let arg1 = data[2];
   let newState = Object.assign({},state);
@@ -86,23 +86,17 @@ let i_jnz = function(s,state) {
 }
 
 let cpu = function(s,state) {
-    //console.log("CPU",s);
-    if (s.startsWith("cpy")) {
-      state = i_cpy(s,state);
-    } else if (s.startsWith("inc")) {
-      state = i_inc(s,state);
-    } else if (s.startsWith("dec")) {
-      state = i_dec(s,state);
-    } else if (s.startsWith("jnz")) {
-      state = i_jnz(s,state);
+    let data = s.split(" ");
+    if (data[0]=="cpy") {
+      state = i_cpy(data,state);
+    } else if (data[0] == "inc") {
+      state = i_inc(data,state);
+    } else if (data[0] == "dec") {
+      state = i_dec(data,state);
+    } else if (data[0] == "jnz") {
+      state = i_jnz(data,state);
     }
     return state;
-}
-
-let cpu2 = function(s) {
-  let state = {};
-  let newState = cpu(s,state);
-  return newState;
 }
 
 let state = {pc : 0, a: 0, b : 0, c : 1, d : 0};
