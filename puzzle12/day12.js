@@ -6,7 +6,7 @@ function isNumeric(n) {
 }
 
 let i_cpy = function(s,state) {
-  let data = s.match(/cpy\s+(\d+|[a-z]+)\s+(\d+|[a-z]+)/)
+  let data = s.split(" ");
   let arg0 = data[1]; // src register or value
   let arg1 = data[2]; // dst register
 
@@ -26,7 +26,7 @@ let i_cpy = function(s,state) {
 }
 
 let i_inc = function(s,state) {
-  let data = s.match(/inc\s+([a-z]+)/)
+  let data = s.split(" ");
   let arg0 = data[1]; // register to inc
   let newState = Object.assign({},state);
   newState[arg0]++;
@@ -35,7 +35,7 @@ let i_inc = function(s,state) {
 }
 
 let i_dec = function(s,state) {
-  let data = s.match(/dec\s+([a-z]+)/)
+  let data = s.split(" ");
   let arg0 = data[1];
   let newState = Object.assign({},state);
   newState[arg0]--;
@@ -44,7 +44,7 @@ let i_dec = function(s,state) {
 }
 
 let i_jnz = function(s,state) {
-  let data = s.match(/jnz\s+([a-z]+|\d+|-\d+)\s+([a-z]+|\d+|-\d+)/)
+  let data = s.split(" ")
   let arg0 = data[1];
   let arg1 = data[2];
   let newState = Object.assign({},state);
