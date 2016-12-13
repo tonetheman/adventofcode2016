@@ -2,7 +2,13 @@
 let _ = require("ramda");
 
 function isNumeric(n) {
-  return !isNaN(parseFloat(n)) && isFinite(n);
+  let c = n[0];
+  if (c=="-" || c=="0" ||
+  c=="1"||c=="2"||c=="3"||
+  c=="4"||c=="5"||c=="6"||
+  c=="7"||c=="8"||c=="9"
+  ) return true;
+  return false;
 }
 
 let i_cpy = function(s,state) {
