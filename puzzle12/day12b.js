@@ -28,7 +28,7 @@ let i_cpy = function(s,state) {
 let i_inc = function(s,state) {
   let data = s.match(/inc\s+([a-z]+)/)
   let arg0 = data[1]; // register to inc
-  let newState = JSON.parse(JSON.stringify(state));
+  let newState = Object.assign({}, state);
   newState[arg0]++;
   newState.pc ++;
   return newState;
@@ -37,7 +37,7 @@ let i_inc = function(s,state) {
 let i_dec = function(s,state) {
   let data = s.match(/dec\s+([a-z]+)/)
   let arg0 = data[1];
-  let newState = JSON.parse(JSON.stringify(state));
+  let newState = Object.assign({},state);
   newState[arg0]--;
   newState.pc++;
   return newState;
@@ -47,7 +47,7 @@ let i_jnz = function(s,state) {
   let data = s.match(/jnz\s+([a-z]+|\d+|-\d+)\s+([a-z]+|\d+|-\d+)/)
   let arg0 = data[1];
   let arg1 = data[2];
-  let newState = JSON.parse(JSON.stringify(state));
+  let newState = Object.assign({},state);
 
   // arg0 is a number
   if (isNumeric(arg0)) {
@@ -153,7 +153,7 @@ while(true) {
   }
   count++;
   if (count%10000==0) {
-    console.log(count);
+    //console.log(count);
   }
   if (count>28959500) {
     console.log("broke for count");

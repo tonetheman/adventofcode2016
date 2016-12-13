@@ -28,7 +28,7 @@ let i_cpy = function(s,state) {
 let i_inc = function(s,state) {
   let data = s.match(/inc\s+([a-z]+)/)
   let arg0 = data[1]; // register to inc
-  let newState = JSON.parse(JSON.stringify(state));
+  let newState = Object.assign({},state);
   newState[arg0]++;
   newState.pc ++;
   return newState;
@@ -37,7 +37,7 @@ let i_inc = function(s,state) {
 let i_dec = function(s,state) {
   let data = s.match(/dec\s+([a-z]+)/)
   let arg0 = data[1];
-  let newState = JSON.parse(JSON.stringify(state));
+  let newState = Object.assign({},state);
   newState[arg0]--;
   newState.pc++;
   return newState;
@@ -47,7 +47,7 @@ let i_jnz = function(s,state) {
   let data = s.match(/jnz\s+([a-z]+|\d+|-\d+)\s+([a-z]+|\d+|-\d+)/)
   let arg0 = data[1];
   let arg1 = data[2];
-  let newState = JSON.parse(JSON.stringify(state));
+  let newState = Object.assign({},state);
 
   // arg0 is a number
   if (isNumeric(arg0)) {
@@ -86,7 +86,7 @@ let i_jnz = function(s,state) {
 }
 
 let cpu = function(s,state) {
-    console.log("CPU",s);
+    //console.log("CPU",s);
     if (s.startsWith("cpy")) {
       state = i_cpy(s,state);
     } else if (s.startsWith("inc")) {
@@ -146,7 +146,7 @@ let count = 0;
 console.log("starting state",state);
 while(true) {
   state = cpu(s[state.pc],state);
-  console.log("state after step",state);
+  //console.log("state after step",state);
   if (state.pc>=s.length) {
     console.log("end of program");
     break;
