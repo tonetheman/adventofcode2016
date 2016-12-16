@@ -24,20 +24,42 @@ def test():
 	print make_more("111100001010")
 
 
-def chk_single(s):
-	if len(s)%2 != 0:
-		print "INVALID MUST BE EVEN"
-		return
+def chksum(s):
 
-	# pair wise check
+	import itertools
 
-
-input = "11110010111001001"
-
-while len(input)<272:
-	input = make_more(input)
-
-print "final input", input
+	def pairwise(iterable):
+		a = iter(iterable)
+		return itertools.izip(a, a)
 
 
+	while len(s)%2==0:
+		res = []
 
+		for a,b in pairwise(s):
+			if a == b:
+				res.append("1")
+			else:
+				res.append("0")
+
+		s = "".join(res)
+
+	print "DONE", s
+	return s
+
+def test_chksum():
+	s = "110010110100"
+	chksum(s)
+
+def part1():
+	input = "11110010111001001"
+
+	while len(input)<272:
+		input = make_more(input)
+
+	input = input[0:272]
+	print "final input", input,len(input)
+	chksum(input)
+
+
+part1()
