@@ -67,7 +67,9 @@ class Board:
 	def __str__(self):
 		ts = ""
 		for i in range(self.rows):
-			ts = ts + str(self.b[i]) + "\n"
+			for j in range(self.cols):
+				ts = ts + str(self.b[i][j])
+			ts=ts+"\n"
 		return ts
 
 	def count_lit_pixels(self):
