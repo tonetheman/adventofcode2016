@@ -1,12 +1,15 @@
 
 TOTAL_ELVES = 5
 
-def take_present_from(n):
-	return (n+1)%TOTAL_ELVES
-
 loot = {}
 for i in range(TOTAL_ELVES):
 	loot[i] = 1
+
+def take_present_from(n):
+	current = n
+	while True:
+		pass
+		
 
 count = 0
 ce = 0
