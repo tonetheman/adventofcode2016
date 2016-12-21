@@ -1,4 +1,4 @@
-import re
+import re, collections
 
 P0 = re.compile("rotate (right|left) (\d+) steps")
 P1 = re.compile("swap position (\d+) with position (\d+)")
@@ -13,13 +13,11 @@ import string
 data = map(string.strip,data)
 
 def handle_pattern_0(d,inp):
-	import collections
 	m = P0.search(d)
 	if m is None:
 		return (False,None)
 	direction = m.group(1)
 	count = m.group(2)
-	print "p0 match", direction, count
 	if direction=="right":
 		d = collections.deque(inp)
 		d.rotate(int(count))
@@ -34,7 +32,6 @@ def handle_pattern_1(d,inp):
 		return (False,None)
 	position1 = m.group(1)
 	position2 = m.group(2)
-	print "p1 match", position1, position2
 	outp = []
 	for i in inp:
 		outp.append(i)
@@ -67,20 +64,44 @@ def handle_pattern_2(d,inp):
 
 	return (True,"".join(outp))
 
-def handle_pattern_3(d):
+def handle_pattern_3(d,inp):
 	m = P3.search(d)
 	if m is None:
 		return (False,None)
-	pos1 = m.group(1)
-	pos2 = m.group(2)
-	return (True,None)
 
-def handle_pattern_4(d):
+	# move letter in pos1
+	# to index pos4
+	pos1 = int(m.group(1))
+	pos2 = int(m.group(2))
+
+	outp = []
+	for i in inp:
+		outp.append(i)
+
+	tmp1 = outp[pos1]
+	del outp[pos1]
+
+	outp.insert(pos2,tmp1)
+
+	return (True,"".join(outp))
+
+def handle_pattern_4(d,inp):
 	m = P4.search(d)
 	if m is None:
 		return (False,None)
+	# 
+	# 
 	letter = m.group(1)
-	return (True,None)
+
+	index = inp.find(letter)
+	# print "index is", index
+	if index>=4:
+		index = index + 1
+
+	d = collections.deque(inp)
+	d.rotate(1+index)
+
+	return (True,"".join(list(d)))
 
 def handle_pattern_5(d,inp):
 	# swaps letters
@@ -100,11 +121,20 @@ def handle_pattern_5(d,inp):
 			outp.append(i)
 	return (True,"".join(outp))
 
-def handle_pattern_6(d):
+def handle_pattern_6(d,inp):
 	m = P6.search(d)
 	if m is None:
 		return (False,None)
-	return (True,None)
+	direction = m.group(1)
+	count = m.group(2)
+	if direction=="right":
+		d = collections.deque(inp)
+		d.rotate(int(count))
+	elif direction == "left":
+		d = collections.deque(inp)
+		d.rotate(-1 * int(count))
+	return (True, "".join(list(d)))
+
 
 s="abcde"
 
@@ -118,28 +148,64 @@ def perform_single_step(d,inp):
 	(res,res2) = handle_pattern_2(d,inp)
 	if res:
 		return res2
-	(res,res2) = handle_pattern_3(d)
+	(res,res2) = handle_pattern_3(d,inp)
 	if res:
-		return
-	(res,res2) = handle_pattern_4(d)
+		return res2
+	(res,res2) = handle_pattern_4(d,inp)
 	if res:
-		return
+		return res2
 	(res,res2) = handle_pattern_5(d,inp)
 	if res:
 		return res2
-	(res,res2) = handle_pattern_6(d)
+	(res,res2) = handle_pattern_6(d,inp)
 	if res:
-		return
+		return res2
 
 	print "ERR: did not handle input!"
 
-s = "abcde"
-new_s = perform_single_step("swap position 4 with position 0", s)
-print s, new_s
-s = new_s
-new_s = perform_single_step("swap letter d with letter b",s)
-print s,new_s
-s = new_s
-new_s = perform_single_step("reverse positions 0 through 4",s)
-print s, new_s
+def test():
+	s = "abcde"
+	new_s = perform_single_step("swap position 4 with position 0", s)
+	print s, new_s
+	s = new_s
+	new_s = perform_single_step("swap letter d with letter b",s)
+	print s,new_s
+	s = new_s
+	new_s = perform_single_step("reverse positions 0 through 4",s)
+	print s, new_s
+	s = new_s
+	new_s = perform_single_step("rotate left 1 step",s)
+	print s, new_s
+	s = new_s
+	new_s = perform_single_step("move position 1 to position 4",s)
+	print s, new_s
+	s = new_s
+	new_s = perform_single_step("move position 3 to position 0",s)
+	print s, new_s
+	s = new_s
+	new_s = perform_single_step("rotate based on position of letter b",s)
+	print s, new_s
+	s = new_s
+	new_s = perform_single_step("rotate based on position of letter d",s)
+	print s, new_s
+
+# test()
+
+def run_part1():
+	data = open("input.xt","r").readlines()
+	import string
+	data = map(string.strip,data)
+	s = "abcdefgh"
+	for d in data:
+		new_s = perform_single_step(d,s)
+		s = new_s
+	print "final",s
+
+	# result here: gcedfahb
+
+run_part1()
+
+
+
+
 
