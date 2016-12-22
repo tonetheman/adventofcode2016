@@ -203,7 +203,9 @@ def run_part1():
 
 	# result here: gcedfahb
 
-run_part1()
+# run_part1()
+
+
 
 
 
