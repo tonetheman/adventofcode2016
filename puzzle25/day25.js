@@ -13,7 +13,7 @@ function isNumeric(n) {
 
 let simp_assign = function(state) {
   let res = { pc : state.pc,
-    a : state.a, b : state.b, c : state.c, d : state.d };
+    a : state.a, b : state.b, c : state.c, d : state.d, output : state.output };
   return res;
 }
 
@@ -102,10 +102,11 @@ let i_out = function(s,state) {
   let data = s.split(" ")
   let arg0 = data[1];
   if (isNumeric(arg0)) {
-    console.log("OUT-NUM:", arg0);
+	newState.output.push(arg0);
   } else {
-    console.log("OUT:", state[arg0]);
+	newState.output.push(state[arg0]);
   }
+  newState.pc++;
   return newState;
 }
 
@@ -135,7 +136,6 @@ let cpu2 = function(s) {
   return newState;
 }
 
-let state = {pc : 0, a: 0, b : 0, c : 0, d : 0};
 
 function read_file_as_array() {
     let fs = require("fs");
@@ -151,15 +151,38 @@ function read_file_as_array() {
 }
 
 let s = read_file_as_array();
-state.a = 158;
 
-console.log("starting state",state);
-while(true) {
-  state = cpu(s[state.pc],state);
-  console.log("DBG",state);
-  if (state.pc>=s.length) {
-    console.log("end of program");
+function check_value(input_value) {
+  let state = {pc : 0, a: 0, b : 0, c : 0, d : 0, output : []};
+  state.a = input_value;
+
+  //console.log("starting state",state);
+  while(true) {
+    state = cpu(s[state.pc],state);
+    if (state.pc>=s.length) {
+      break;
+    }
+
+    if (state.output.length>8) {
+      break;
+    }
+  }
+  //console.log("final state",state);
+  console.log(input_value, state.output);
+  return state;
+}
+
+function checkit(a) {
+  if (a[0] == 0 && a[1] == 1 && a[2] == 0 &&
+  a[3] == 1 && a[4] == 0 && a[5] == 1 && a[6] == 0 &&
+a[7] == 1 && a[8] == 0)
+  return true;
+  return false;
+}
+
+for(let i=0;i<500;i++) {
+  let state = check_value(i);
+  if (checkit(state.output)) {
     break;
   }
 }
-console.log("final state",state);
