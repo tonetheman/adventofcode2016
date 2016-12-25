@@ -95,6 +95,34 @@ def i_dec(instr,state):
     new_state.pc = new_state.pc + 1
     return new_state
 
+def i_jnz(instr,state):
+    print "i_jnz called"
+    data = instr.split()
+    argx = data[1]
+    argy = data[2]
+
+    if is_int(argx):
+        xval = int(argx)
+    else:
+        xval = int(get_val_from_state(state,argx))
+
+    if is_int(argy):
+        yval = int(argy)
+    else:
+        yval = int(get_val_from_state(state,argy))
+
+
+    if xval != 0:
+        print "XVAL IS", xval, "bumping pc by", yval
+        new_state.pc = new_state.pc + yval
+    else:
+        print "no jump"
+        new_state.pc = new_state.pc+1
+
+    return new_state
+
+
+
 def execute(program,state):
     instr = program[state.pc]
     print "execute",instr
@@ -105,6 +133,8 @@ def execute(program,state):
         new_state = i_inc(instr,state)
     elif instr.startswith("dec"):
         new_state = i_dec(instr,state)
+    elif instr.startswith("jnz"):
+        new_state = i_jnz(instr,state)
     else:
         print "ERR: instr not known", instr
         import sys
@@ -120,5 +150,5 @@ while True:
 
     print "**********  state ->",state
     count = count + 1
-    if count == 6:
-        break
+    # if count == 9:
+    #    break
