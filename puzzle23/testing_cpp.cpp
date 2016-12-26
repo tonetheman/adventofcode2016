@@ -209,7 +209,45 @@ void i_jnz(struct State & state) {
   }
 
   // TODO: NEED TO FINISH THIS PART
+  int xval = -1;
+  if (chk_int(arg1)) {
+    // arg1 is a number
+    xval = atoi(arg1);
+  } else {
+    // arg1 is not a number
+    if (arg1[0]=='a') {
+      xval = state.a;
+    } else if (arg1[0]=='b'){
+      xval = state.b;
+    } else if (arg1[0]=='c') {
+      xval = state.c;
+    } else if (arg1[0]=='d') {
+      xval = state.d;
+    }
+  }
 
+  if (xval!=0) {
+    // NEED TO MAKE THE JUMP FIGURE
+    // OUT the number of steps
+    int yval = -1;
+
+    if (chk_int(arg2)) {
+      yval = atoi(arg2);
+    } else {
+      if (arg2[0]=='a') {
+        yval = state.a;
+      } else if (arg2[0]=='b') {
+        yval = state.b;
+      } else if (arg2[0]=='c') {
+        yval = state.c;
+      } else if (arg2[0]=='d') {
+        yval = state.d;
+      }
+    }
+
+    state.pc = state.pc + yval;
+
+  }
 
 }
 
@@ -237,10 +275,9 @@ int main() {
   state_init(state);
   state.a = 7;
 
-  execute(state);
-  execute(state);
-  execute(state);
-  execute(state);
+  while (true) {
+    execute(state);
+  }
 
   return 0;
 }
