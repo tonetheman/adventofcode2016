@@ -47,14 +47,13 @@
   program ;; return the vector
 )
 
-;; this makes a list
-;; it looks nicer but I am not sure
-;; I can use a list or not yet
+;; changed to return vector
+;; need indexing for jnz
 (define (load-program2)
   (define inf (open-input-file "input.txt"))
   (define tmp (sequence->list (in-lines inf))) ;; this is a sequence
   (close-input-port inf)  ;; close the file
-  tmp
+  (list->vector tmp)
 )
 
 (define program (load-program2))
